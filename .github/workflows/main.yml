@@ -1,32 +1,20 @@
-name: Deploy Angular Project to Netlify
+name: build on push
 
 on:
   push:
-    branches:
-      - master
+    paths-ignore:
+      -".github/**"
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Check out repository
-      uses: actions/checkout@v2
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '14'  # O la versión de Node.js que necesites
-
-    - name: Install dependencies
-      run: npm install
-
-    - name: Build Angular project
-      run: npm run build --prod
-
-    - name: Deploy to Netlify
-      env:
-        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-      run: npx netlify-cli deploy --prod --dir=dist
-      
+      - uses: actions/checkout@v3
+      - name: Build
+        env:
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        run: |
+          npm install
+          npm run build
+          npx netlify-cli deploy --prod --dir=dist
