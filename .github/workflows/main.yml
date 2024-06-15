@@ -1,5 +1,3 @@
-name: Deploy Angular Project to Netlify
-
 on:
   push:
     branches:
@@ -16,7 +14,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '14'  # O la versión de Node.js que necesites
+        node-version: '17'  # O la versión de Node.js que necesites
 
     - name: Install dependencies
       run: npm install
@@ -28,5 +26,4 @@ jobs:
       env:
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-      run: npx netlify-cli deploy --prod --dir=dist
-      
+      run: npx netlify-cli deploy --prod --dir=dist/fina-alatamirano
